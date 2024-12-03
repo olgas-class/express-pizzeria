@@ -1,9 +1,14 @@
 const express = require("express");
 const menu = require("./data");
+const pizzasRouter = require("./routers/pizzas");
+
 const app = express();
 const port = 3001;
 
 app.use(express.static("public"));
+
+// includo tutte le rotte delle pizze con prefisso "pizzas" nelle url di ogni rotta
+app.use("/pizzas", pizzasRouter);
 
 app.get("/", (req, res) => {
   res.json({
@@ -11,13 +16,6 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/menu", (req, res) => {
-  const result = {
-    pizze: menu,
-    totale: menu.length
-  }
-  res.json(result);
-});
 
 app.get('/ricerca', (req, res) => {
   const pizzaName = req.query.nome; // "Mar"
