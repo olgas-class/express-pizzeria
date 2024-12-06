@@ -33,11 +33,51 @@ const show = (req, res) => {
 };
 
 const create = (req, res) => {
-  res.json("Qui aggiungo la nuova pizza ai miei dati");
+  console.log(req.body);
+
+  // Creo l'oggetto con i dati arrivati dal request
+  const newPizza = req.body;
+
+  // calcolo il successivo id
+  const lastItemIndex = pizzasArray.length - 1; // number --> 5
+  const lastItem = pizzasArray[lastItemIndex] // object
+  newPizza.id = lastItem.id + 1;
+
+
+  // Aggiungo id all'oggetto newPizza
+  // newPizza.id = pizzasArray[pizzasArray.length - 1].id + 1;
+
+  // Aggiungo l'oggetto newPizza nell'array
+  pizzasArray.push(newPizza);
+
+  res.statusCode = 201;
+  res.json(newPizza);
 };
 
 const update = (req, res) => {
-  res.json("Qui aggiorno tutti i dati di una pizza con id " + pizzaID);
+  const pizzaID = parseInt(req.params.id); 
+
+  const updatedPizza = req.body; // object
+
+  // Aggiungere la chiave id al updatedPizza
+  updatedPizza.id = pizzaID;
+
+  // Trovo indice di elemento da modificare
+  const indexToUpdate = pizzasArray.findIndex((curPizza) => curPizza.id === pizzaID); // 0
+  console.log(indexToUpdate);
+
+  if(indexToUpdate === -1) {
+    res.statusCode = 404;
+    res.json({
+      error: true,
+      message: "Pizza non trovata"
+    })
+  } else {
+    // Sostituiamo l'elemnto nella posizione di elemnto da modificare con l'oggetto updatedPizza
+    pizzasArray[indexToUpdate] = updatedPizza;
+    
+    res.json(updatedPizza);
+  }
 };
 
 const modify = (req, res) => {

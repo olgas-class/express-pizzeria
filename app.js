@@ -5,6 +5,9 @@ const pizzasRouter = require("./routers/pizzas");
 const app = express();
 const port = 3001;
 
+// aggiungo il body parser in formato json per poter leggere il body della richiesta quando arriva alle rotte post, put e patch
+app.use(express.json());
+
 app.use(express.static("public"));
 
 // includo tutte le rotte delle pizze con prefisso "pizzas" nelle url di ogni rotta
