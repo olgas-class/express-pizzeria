@@ -21,15 +21,7 @@ const index = (req, res) => {
 const show = (req, res) => {
   const pizzaID = parseInt(req.params.id);
   const pizza = pizzasArray.find((curPizza) => curPizza.id === pizzaID);
-  if (pizza === undefined) {
-    res.statusCode = 404;
-    res.json({
-      error: true,
-      message: "Pizza non trovata",
-    });
-  } else {
-    res.json(pizza);
-  }
+  res.json(pizza);
 };
 
 const create = (req, res) => {
@@ -40,9 +32,8 @@ const create = (req, res) => {
 
   // calcolo il successivo id
   const lastItemIndex = pizzasArray.length - 1; // number --> 5
-  const lastItem = pizzasArray[lastItemIndex] // object
+  const lastItem = pizzasArray[lastItemIndex]; // object
   newPizza.id = lastItem.id + 1;
-
 
   // Aggiungo id all'oggetto newPizza
   // newPizza.id = pizzasArray[pizzasArray.length - 1].id + 1;
@@ -55,7 +46,7 @@ const create = (req, res) => {
 };
 
 const update = (req, res) => {
-  const pizzaID = parseInt(req.params.id); 
+  const pizzaID = parseInt(req.params.id);
 
   const updatedPizza = req.body; // object
 
@@ -63,21 +54,14 @@ const update = (req, res) => {
   updatedPizza.id = pizzaID;
 
   // Trovo indice di elemento da modificare
-  const indexToUpdate = pizzasArray.findIndex((curPizza) => curPizza.id === pizzaID); // 0
-  console.log(indexToUpdate);
+  const indexToUpdate = pizzasArray.findIndex(
+    (curPizza) => curPizza.id === pizzaID
+  ); // 0
 
-  if(indexToUpdate === -1) {
-    res.statusCode = 404;
-    res.json({
-      error: true,
-      message: "Pizza non trovata"
-    })
-  } else {
-    // Sostituiamo l'elemnto nella posizione di elemnto da modificare con l'oggetto updatedPizza
-    pizzasArray[indexToUpdate] = updatedPizza;
-    
-    res.json(updatedPizza);
-  }
+  // Sostituiamo l'elemnto nella posizione di elemnto da modificare con l'oggetto updatedPizza
+  pizzasArray[indexToUpdate] = updatedPizza;
+
+  res.json(updatedPizza);
 };
 
 const modify = (req, res) => {
@@ -91,17 +75,8 @@ const destory = (req, res) => {
   const pizzaIndex = pizzasArray.findIndex(
     (curPizza) => curPizza.id === pizzaID
   );
-  // Se non trovato, il valore è -1
-  if (pizzaIndex === -1) {
-    res.statusCode = 404;
-    res.json({
-      error: true,
-      message: "Pizza non trovata",
-    });
-  } else {
-    pizzasArray.splice(pizzaIndex, 1);
-    res.sendStatus(204);
-  }
+  pizzasArray.splice(pizzaIndex, 1);
+  res.sendStatus(204);
 };
 
 module.exports = {
