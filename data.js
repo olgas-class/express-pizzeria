@@ -34,7 +34,6 @@ const menu = [
     name: "4 formaggi",
     image: "imgs/pizze/4_formaggi.jpeg",
     ingredients: [
-      "pomodoro",
       "mozzarella",
       "gorgonzola",
       "parmigiano",
